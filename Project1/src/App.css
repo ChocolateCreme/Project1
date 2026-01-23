@@ -1,31 +1,3 @@
-.Avani img{
-  height: 125px;
-  width: 100px;
-}
-
-.Avani {
-  background-color: orchid;
-  text-align: center;
-  margin: 10px;
-  padding: 10px;
-  height: 300px;
-  width: 200px;
-}
-
-.Dog img{
-  height: 100px;
-  width: 125px;
-}
-
-.Dog {
-  background-color: orchid;
-  text-align: center;
-  margin: 10px;
-  padding: 10px;
-  height: 300px;
-  width: 200px;
-}
-
 .Profile-card-container {
   display: flex;
   gap: 10px;
@@ -35,14 +7,14 @@
   margin: 10px;
   padding: 10px;
   font-family: 'Times New Roman', Times, serif;
-  background-color: pink;
+  background-color: orchid;
 }
 
 .About p, h1 {
   margin: 10px;
   padding: 10px;
   font-family: 'Times New Roman', Times, serif;
-  background-color: pink;
+  background-color: orchid;
 }
 
 .Navigation nav, ul, li {
@@ -53,3 +25,12 @@
   background-color: gold;
 }
 
+.top img{
+  height: 200px;
+  width: 200px;
+}
+
+.grid {
+  display:flex;
+  gap:10px;
+}
