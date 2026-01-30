@@ -16,31 +16,33 @@ function App() {
     {id: 3, name: "Child", title: "Child hugging dog", image: Dog},
   ]
 
-const titles = [...new Set(profiles.map(profile => profile.title))];
-const [clicked, setClicked] = useState(false)
-const handleClick = () => {
-  setClicked (prev => !prev);
-  setClicked (prev => !prev);
-  console.log(clicked);
-};
-const [title, setTitle] = useState("")
-const [name, setName] = useState("")
-const handleChangeTitle = (event) => {
-  setTitle(event.target.value)
-};
+  const titles = [...new Set(profiles.map(profile => profile.title))];
+  const [clicked, setClicked] = useState(false)
+  const handleClick = () => {
+    setClicked (prev => !prev);
+    setClicked (prev => !prev);
+    console.log(clicked);
+  };
+  const [title, setTitle] = useState("")
+  const [name, setName] = useState("")
+  const handleChangeTitle = (event) => {
+    setTitle(event.target.value)
+  };
 
-const handleSearch = () => {
-  setName(event.target.value)
-};
+  const handleSearch = () => {
+    setName(event.target.value)
+  };
 
-const handleClear = () => {
-  setTitle("")
-  setName("")
-};
+  const handleClear = () => {
+    setTitle("")
+    setName("")
+  };
 
-const filteredProfiles = profiles.filter(profile => (
-  (profile.title === title||!title) && (profile.name.toLowerCase().includes(name.toLowerCase()))
-))
+  const filteredProfiles = profiles.filter(profile => (
+    (profile.title === title||!title) && (profile.name.toLowerCase().includes(name.toLowerCase()))
+  ))
+
+  const [darkMode, setDarkMode] = useState(false);
 
   return (
     <>
@@ -72,8 +74,13 @@ const filteredProfiles = profiles.filter(profile => (
           )}
         </div>
         </Wrapper>
+        <div className={darkMode ? ".dark-theme" : ".light-theme"}>
+          <button onClick={() => setDarkMode(!darkMode)}>
+            Change Theme
+          </button>
+        </div>
     </>
   );
 }
 
-export default App
+export default App;

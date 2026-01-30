@@ -41,3 +41,19 @@
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   background-color: coral;
 }
+
+#changeTheme {
+  background-color: whitesmoke;
+  width: 150px;
+  height: 50px;
+}
+
+.light-theme {
+  background-color: white;
+  color: black;
+}
+
+.dark-theme {
+  background-color: black;
+  color: white;
+}
