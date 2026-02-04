@@ -57,3 +57,14 @@
   background-color: black;
   color: white;
 }
+
+.form {
+  margin: 10px;
+  padding: 10px;
+  background-color: mediumspringgreen;
+}
+
+#submit {
+  color: white;
+  background-color: black;
+}

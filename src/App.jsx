@@ -7,29 +7,30 @@ import Wrapper from "./components/Wrapper";
 import Filters from "./components/Filters";
 import "./App.css";
 import { useState } from "react";
+import AddProfileForm from "./components/Form";
 
 function App() {
-  const profiles = [
-    {id: 0, name: "Avani", title: "Purdue University student", image: Avani},
-    {id: 1, name: "Dog", title: "Large stuffed dog", image: Dog},
-    {id: 2, name: "Girl", title: "Rocking the ray-bans", image: Avani},
-    {id: 3, name: "Child", title: "Child hugging dog", image: Dog},
-  ]
+  const [profiles, setProfiles] = useState([
+    {id: 0, name: "Avani", title: "Purdue University student", email:"", bio:"", image: Avani},
+    {id: 1, name: "Dog", title: "Large stuffed dog", email:"", bio:"", image: Dog},
+    {id: 2, name: "Girl", title: "Rocking the ray-bans", email:"", bio:"", image: Avani},
+    {id: 3, name: "Child", title: "Child hugging dog", email:"", bio:"", image: Dog},
+  ]);
 
   const titles = [...new Set(profiles.map(profile => profile.title))];
-  const [clicked, setClicked] = useState(false)
+  const [clicked, setClicked] = useState(false);
   const handleClick = () => {
-    setClicked (prev => !prev);
-    setClicked (prev => !prev);
+    setClicked ((prev) => !prev);
+    setClicked ((prev) => !prev);
     console.log(clicked);
   };
-  const [title, setTitle] = useState("")
-  const [name, setName] = useState("")
+  const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
   const handleChangeTitle = (event) => {
     setTitle(event.target.value)
   };
 
-  const handleSearch = () => {
+  const handleSearch = (event) => {
     setName(event.target.value)
   };
 
@@ -38,9 +39,13 @@ function App() {
     setName("")
   };
 
+  const updateProfiles = (profile) => {
+    setProfiles(pre => ([...pre, profile]))
+  }
+
   const filteredProfiles = profiles.filter(profile => (
     (profile.title === title||!title) && (profile.name.toLowerCase().includes(name.toLowerCase()))
-  ))
+  ));
 
   const [darkMode, setDarkMode] = useState(false);
 
@@ -49,6 +54,9 @@ function App() {
       <Navbar />
       <Wrapper id="about">
         <About/>
+      </Wrapper>
+      <Wrapper id="add-profile">
+        <AddProfileForm onAddProfile={updateProfiles}/>
       </Wrapper>
       <Wrapper id="profiles">
         <Filters 
