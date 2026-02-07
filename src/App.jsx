@@ -8,6 +8,7 @@ import Filters from "./components/Filters";
 import "./App.css";
 import { useState } from "react";
 import AddProfileForm from "./components/Form";
+import FetchedProfiles from "./components/FetchedProfiles";
 
 function App() {
   const [profiles, setProfiles] = useState([
@@ -26,6 +27,7 @@ function App() {
   };
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
+  
   const handleChangeTitle = (event) => {
     setTitle(event.target.value)
   };
