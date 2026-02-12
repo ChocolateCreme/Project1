@@ -1,14 +1,13 @@
-import Card from "./components/Card";
 import Navbar from "./components/Navbar";
-import About from "./components/About";
 import Avani from "./assets/Avani.jpg";
 import Dog from "./assets/Dog.jpg";
-import Wrapper from "./components/Wrapper";
-import Filters from "./components/Filters";
 import "./App.css";
 import { useState } from "react";
-import AddProfileForm from "./components/Form";
-import FetchedProfiles from "./components/FetchedProfiles";
+import { HashRouter, Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import AddProfilePage from "./pages/AddProfilePage"
+import FetchedProfilePage from "./pages/FetchedProfilePage";
 
 function App() {
   const [profiles, setProfiles] = useState([
@@ -18,13 +17,6 @@ function App() {
     {id: 3, name: "Child", title: "Child hugging dog", email:"", bio:"", image: Dog},
   ]);
 
-  const titles = [...new Set(profiles.map(profile => profile.title))];
-  const [clicked, setClicked] = useState(false);
-  const handleClick = () => {
-    setClicked ((prev) => !prev);
-    setClicked ((prev) => !prev);
-    console.log(clicked);
-  };
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
   
@@ -45,52 +37,20 @@ function App() {
     setProfiles(pre => ([...pre, profile]))
   }
 
-  const filteredProfiles = profiles.filter(profile => (
-    (profile.title === title||!title) && (profile.name.toLowerCase().includes(name.toLowerCase()))
-  ));
-
   const [darkMode, setDarkMode] = useState(false);
 
   return (
-    <>
-      <Navbar />
-      <Wrapper id="about">
-        <About/>
-      </Wrapper>
-      <Wrapper id="add-profile">
-        <AddProfileForm onAddProfile={updateProfiles}/>
-      </Wrapper>
-      <Wrapper id="profiles">
-        <Filters 
-        titles={titles}
-        title={title}
-        name={name}
-        handleChange={handleChangeTitle}
-        handleSearch={handleSearch} 
-        handleClick={handleClear}/>
-
-        <div className="grid">
-          {filteredProfiles.length > 0? (
-            filteredProfiles.map((profile)=>(
-              <Card 
-                key={profile.id}
-                name={profile.name}
-                title={profile.title} 
-                image={profile.image}
-              />
-            ))
-          ) : (
-            <p>No profiles matched your search.</p>
-          )}
-        </div>
-        </Wrapper>
-        <div className={darkMode ? ".dark-theme" : ".light-theme"}>
-          <button onClick={() => setDarkMode(!darkMode)}>
-            Change Theme
-          </button>
-        </div>
-    </>
-  );
+    <HashRouter>
+      <div className="routes">
+        <Navbar/>
+        <Routes>
+          <Route path="/" element={<HomePage profiles={profiles} handleChangeTitle={handleChangeTitle} handleSearch={handleSearch} handleClear={handleClear} title={title} name={name}/>}/>
+          <Route path="/about" element={<AboutPage/>}/>
+          <Route path="/add-profile" element={<AddProfilePage updateProfiles={updateProfiles}/>}/>
+        </Routes>
+      </div>
+    </HashRouter>
+  )
 }
 
 export default App;

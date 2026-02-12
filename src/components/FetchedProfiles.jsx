@@ -4,10 +4,10 @@ import Card from "../components/Card";
 
 
 const FetchedProfiles = () => {
-    const [titles, setTitles] = useState([])
-    const [title, setTitle] = useState("")
-    const [name, setName] = useState("")
-    const [profiles, setProfiles] = useState([])
+    const [titles, setTitles] = useState([]);
+    const [title, setTitle] = useState("");
+    const [name, setName] = useState("");
+    const [profiles, setProfiles] = useState([]);
 
     const handleChangeTitle = (event) => {
         setTitle(event.target.value)
@@ -24,15 +24,16 @@ const FetchedProfiles = () => {
 
     useEffect(()=>{
         fetch('https://web.ics.purdue.edu/%7Ezong6/profile-app/get-titles.php')
-        .then(res => res.json())
-        .then(res => setTitles(res.titles))
+            .then(res => res.json())
+            .then(res => setTitles(res.titles))
     },[])
 
     useEffect(()=>{
         fetch('https://web.ics.purdue.edu/~zong6/profile-app/fetch-data-with-filter.php?title=${title}&name=${search}')
-        .then(res => res.json())
-        .then(res => setProfiles(res))
-    },[title, search])
+            .then(res => res.json())
+            .then(res => setProfiles(res.profiles));
+                console.log(res)
+    },[title, name])
 
 
     return (
@@ -46,8 +47,8 @@ const FetchedProfiles = () => {
             handleClick={handleClear}/>
 
             <div className="grid">
-                {filteredProfiles.length > 0? (
-                    filteredProfiles.map((profile)=>(
+                {profiles.length > 0? (
+                    profiles.map((profile)=>(
                 
                     <Card 
                         key={profile.id}
