@@ -1,6 +1,7 @@
 import {useState, useEffect} from "react";
 import Filters from "../components/Filters";
 import Card from "../components/Card";
+import { Link } from "react-router-dom";
 
 
 const FetchedProfiles = () => {
@@ -49,13 +50,14 @@ const FetchedProfiles = () => {
             <div className="grid">
                 {profiles.length > 0? (
                     profiles.map((profile)=>(
-                
-                    <Card 
-                        key={profile.id}
-                        name={profile.name}
-                        title={profile.title} 
-                        image={profile.image}
-                    />
+                        <Link key={profile.id} to={'/fetched-profiles/profiles/${profile.id}'}>
+                        <Card 
+                            key={profile.id}
+                            name={profile.name}
+                            title={profile.title} 
+                            image={profile.image}
+                        />
+                        </Link>
                     ))
                 ) : (
                     <p>No profiles matched your search.</p>

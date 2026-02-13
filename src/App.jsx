@@ -8,6 +8,8 @@ import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import AddProfilePage from "./pages/AddProfilePage"
 import FetchedProfilePage from "./pages/FetchedProfilePage";
+import ProfileDetailPage from "./pages/ProfileDetailPage";
+import ProfileLayoutPage from "./pages/ProfileLayoutPage";
 
 function App() {
   const [profiles, setProfiles] = useState([
@@ -46,6 +48,10 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage profiles={profiles} handleChangeTitle={handleChangeTitle} handleSearch={handleSearch} handleClear={handleClear} title={title} name={name}/>}/>
           <Route path="/about" element={<AboutPage/>}/>
+          <Route path="/fetched-profiles/profile" element={<ProfileLayoutPage/>}>
+            <Route path=":id" element={<ProfileDetailPage/>}/>
+          </Route>
+          <Route path="/fetched-profiles" element={<FetchedProfilePage/>}/>
           <Route path="/add-profile" element={<AddProfilePage updateProfiles={updateProfiles}/>}/>
         </Routes>
       </div>
