@@ -2,7 +2,7 @@ import Navbar from "./components/Navbar";
 import Avani from "./assets/Avani.jpg";
 import Dog from "./assets/Dog.jpg";
 import "./App.css";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
@@ -10,6 +10,8 @@ import AddProfilePage from "./pages/AddProfilePage"
 import FetchedProfilePage from "./pages/FetchedProfilePage";
 import ProfileDetailPage from "./pages/ProfileDetailPage";
 import ProfileLayoutPage from "./pages/ProfileLayoutPage";
+import ModeContext from "./context/ModeContext";
+import UpdateProfileContext from "./context/UpdateProfileContext";
 
 function App() {
   const [profiles, setProfiles] = useState([
@@ -35,11 +37,9 @@ function App() {
     setName("")
   };
 
-  const updateProfiles = (profile) => {
-    setProfiles(pre => ([...pre, profile]))
-  }
+  const {theme} = useContext(ModeContext)
 
-  const [darkMode, setDarkMode] = useState(false);
+  const updateProfiles = useContext(UpdateProfileContext)
 
   return (
     <HashRouter>
