@@ -1,42 +1,79 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useReducer, useRef, useEffect } from "react";
+import formReducer from "../reducers/formReducer";
+import { useLayoutEffect } from "react";
 
 const stripTags = (s) => String(s ?? "").replace(/<\/?[^>]+>/g, "");
 const trimCollapse = (s) => String(s ?? "").trim().replace(/\s+/g, " ")
 
+const initialState = {
+    values: {
+        name: "",
+        title: "",
+        email: "",
+        bio: "",
+        image: null,
+    },
+    error: "",
+    isSubmitting: false,
+    success: "",
+}
+
 const AddProfileForm =({onAddProfile}) => {
 
-    const [values, setValues] = useState({name: "", title: "", email: "", bio: "", image: null});
-    const [error, setError] = useState("");
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [success, setSuccess] = useState(false);
+    const [state, dispatch] = useReducer(formReducer, initialState);
+
+    const {values, error, isSubmitting, success} = state;
+
+    //const [values, setValues] = useState({name: "", title: "", email: "", bio: "", image: null});
+    //const [error, setError] = useState("");
+    //const [isSubmitting, setIsSubmitting] = useState(false);
+    //const [success, setSuccess] = useState(false);
 
     const {name, title, email, bio, image} = values;
     const navigate = useNavigate();
-    
+
+    const fieldRef = useRef (null)
+
+    console.log (fieldRef)
+
+    useEffect (() => {
+        fieldRef.current.focus();
+    }, []);
+
+    useLayoutEffect (() => {
+        const prev = document.body.style.width;
+        document.body.style.width = "500px"
+        return () => {document.body.style.width = prev;};
+    }, []);
+
     const handleChange = (event) => {
         const {name, value} = event.target;
         if (name === "image"){
             const file = event.target.files[0];
-            if(file && file.size <1024 * 1024){
-                setValues(pre => ({...pre, image:file}));
-                setErrors("");
-            } else{
-                setError("The image should be less than 1MB.");
-                setValues(pre => ({...pre, image:null}));
-            }
+            dispatch({type: "SET_IMG", payload: file})
+            //if(file && file.size <1024 * 1024){
+                //setValues(pre => ({...pre, image:file}));
+                //setErrors("");
+            //} else{
+                //setError("The image should be less than 1MB.");
+                //setValues(pre => ({...pre, image:null}));
+            //}
             } else {
-            setValues(pre => ({...pre, [name]: value}));
-        }
+                dispatch({type: "SET_VALUES", payload: {name, value}})
+                setValues(pre => ({...pre, [name]: value}));
+            }
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setIsSubmitting(true);
+        dispatch({type: "START_SUBMITTING"})
+        //setIsSubmitting(true);
         try {
             if (!stripTags(trimCollapse(name)) || !stripTags(trimCollapse(title)) || !trimCollapse(bio) || !stripTags(trimCollapse(email))
             ) {
-            setError("Please fill in name, title, email, and description");
+            dispatch({type:"EMPTY_FIELD"})
+            //setError("Please fill in name, title, email, and description");
             return;
         }
         console.log(`image ${image}`);
@@ -50,18 +87,22 @@ const AddProfileForm =({onAddProfile}) => {
         };
 
         onAddProfile(cleanedData);
+        dispatch ({type:"ON_SUBMIT"})
 
-        setValues({ name: "", title: "", email: "", bio: "", image: null });
-        setError("");
-        setSuccess("Form is submitted susccesfully");
+        //setValues({ name: "", title: "", email: "", bio: "", image: null });
+        //setError("");
+        //setSuccess("Form is submitted susccesfully");
         setTimeout(() => {
-            setSuccess("");
+            //setSuccess("");
+            dispatch({type:"SUBMIT_SUCCESS"})
             navigate("/")
         }, 1000);
         } catch (error) {
+            dispatch({type:"SYSTEM_ERROR", payload: error.message})
             setError(error.message);
         } finally {
-            setIsSubmitting(false);
+            //setIsSubmitting(false);
+            dispatch({type:"AFTER_SUBMIT"})
         }
     };
 
